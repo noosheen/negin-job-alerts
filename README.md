@@ -9,8 +9,8 @@ Posts new UX, product design, UX research and CRO jobs in the Netherlands to the
    jobs posted in the last 24 hours.
 2. **IND recognised sponsors' own career pages**: `discover_boards.py` reads the IND
    public register (about 13,000 companies) and finds which of them run a public job
-   board on Greenhouse, Lever, Ashby, Recruitee, Workable, Teamtailor, SmartRecruiters
-   or Personio. The list is saved in `boards.json`, and every run reads those boards
+   board on Greenhouse, Lever, Ashby, Recruitee, Workable, Teamtailor, SmartRecruiters,
+   Personio, Homerun or Breezy. The list is saved in `boards.json`, and every run reads those boards
    directly, so jobs that are never posted on LinkedIn or Indeed are caught too.
    A monthly workflow refreshes the list.
 

@@ -133,9 +133,24 @@ def personio(s):
     return None
 
 
+def homerun(s):
+    r = get(f"https://feed.homerun.co/{s}")
+    if not r or "<feed" not in r[1]:
+        return None
+    return len(re.findall(r"<entry>", r[1]))
+
+
+def breezy(s):
+    r = get(f"https://{s}.breezy.hr/json")
+    if not r or not r[1].lstrip().startswith("["):
+        return None
+    jobs = json.loads(r[1])
+    return sum(bool(NL_HINT.search(json.dumps(j.get("location", {})))) for j in jobs)
+
+
 CHECKERS = {"greenhouse": greenhouse, "lever": lever, "ashby": ashby, "recruitee": recruitee,
             "workable": workable, "teamtailor": teamtailor, "smartrecruiters": smartrecruiters,
-            "personio": personio}
+            "personio": personio, "homerun": homerun, "breezy": breezy}
 
 
 def load_register():
@@ -155,6 +170,7 @@ def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("--workers", type=int, default=48)
     ap.add_argument("--limit", type=int, default=0)
+    ap.add_argument("--only", default="", help="comma-separated ATS names; merges into boards.json")
     args = ap.parse_args()
 
     names = load_register()
@@ -166,7 +182,7 @@ def main():
     tasks, seen_pairs = [], set()
     for name in names:
         for s in slugs(name):
-            for ats in CHECKERS:
+            for ats in (args.only.split(",") if args.only else CHECKERS):
                 if (ats, s) not in seen_pairs:
                     seen_pairs.add((ats, s))
                     tasks.append((name, ats, s))
@@ -192,6 +208,9 @@ def main():
     with cf.ThreadPoolExecutor(args.workers) as ex:
         list(ex.map(work, tasks))
 
+    if args.only and (HERE / "boards.json").exists():
+        for b in json.loads((HERE / "boards.json").read_text(encoding="utf-8")):
+            found.setdefault(f'{b["ats"]}:{b["slug"]}', b)
     boards = sorted(found.values(), key=lambda b: (b["company"], b["ats"]))
     (HERE / "boards.json").write_text(json.dumps(boards, ensure_ascii=False, indent=1))
     print(f"Found {len(boards)} job boards with open jobs", file=sys.stderr)

@@ -88,6 +88,20 @@ def fetch_board(b):
             g = lambda t: (re.search(rf"<{t}>(.*?)</{t}>", p, re.S) or [None, ""])[1]
             out.append(_job(b, g("id"), g("name"), g("office"),
                             f"https://{s}.jobs.personio.{tld}/job/{g('id')}", g("value"), g("createdAt")))
+    elif a == "homerun":
+        feed = _get(f"https://feed.homerun.co/{s}")
+        for e in re.findall(r"<entry>(.*?)</entry>", feed, re.S):
+            g = lambda pat: (re.search(pat, e, re.S) or [None, ""])[1]
+            job = _job(b, g(r"<id>(.*?)</id>"), g(r'<title[^>]*>(.*?)</title>'),
+                       g(r"<location>\s*<name>(.*?)</name>"), g(r'<link[^>]*href="([^"]+)"'),
+                       g(r"<content[^>]*><!\[CDATA\[(.*?)\]\]>"), g(r"<updated>(.*?)</updated>"))
+            job["salary"] = _text(g(r"<salary_indication>(.*?)</salary_indication>"))
+            out.append(job)
+    elif a == "breezy":
+        for j in json.loads(_get(f"https://{s}.breezy.hr/json")):
+            l = j.get("location", {}) or {}
+            loc = f'{l.get("name","")} {(l.get("country") or {}).get("name","") if isinstance(l.get("country"), dict) else l.get("country","")}'
+            out.append(_job(b, j["id"], j["name"], loc, j["url"], "", j.get("published_date", "")))
     return out
 
 
