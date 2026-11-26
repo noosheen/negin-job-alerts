@@ -175,6 +175,7 @@ def format_job(job):
     if job.get("applied_note"):
         lines.append(f"<b>{e(job['applied_note'])}</b>")
     lines.append(f'🔎 Found via: {e(job["keyword"])}')
+    lines.append(f'🔗 <a href="{e(job["url"], quote=True)}">Open job posting</a>\n{e(job["url"])}')
     return "\n".join(lines)
 
 
