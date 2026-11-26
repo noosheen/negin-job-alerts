@@ -145,8 +145,8 @@ def load_register():
     names = []
     for row in re.findall(r"<tr[^>]*>(.*?)</tr>", r[1], re.S):
         cells = [html.unescape(re.sub(r"<[^>]+>", "", c)).strip()
-                 for c in re.findall(r"<td[^>]*>(.*?)</td>", row, re.S)]
-        if cells and cells[0]:
+                 for c in re.findall(r"<t[dh][^>]*>(.*?)</t[dh]>", row, re.S)]
+        if cells and cells[0] and not cells[0].isdigit() and cells[0] != "Organisation":
             names.append(cells[0])
     return names
 

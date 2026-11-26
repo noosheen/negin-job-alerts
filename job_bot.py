@@ -27,6 +27,7 @@ import urllib.request
 from pathlib import Path
 
 from ats_sources import ats_jobs, norm_company
+from applied import AppliedChecker
 
 HERE = Path(__file__).resolve().parent
 CONFIG = json.loads((HERE / "config.json").read_text(encoding="utf-8"))
@@ -171,6 +172,8 @@ def format_job(job):
         lines.append(f'🗓 Posted {e(job["posted"])}')
     if job.get("tags"):
         lines.append(" · ".join(e(t) for t in job["tags"]))
+    if job.get("applied_note"):
+        lines.append(f"<b>{e(job['applied_note'])}</b>")
     lines.append(f'🔎 Found via: {e(job["keyword"])}')
     return "\n".join(lines)
 
@@ -213,6 +216,12 @@ def main():
                 if sponsors_file.exists() else set())
     for job in new.values():
         job["ind_sponsor"] = job.get("source", "linkedin") != "linkedin" or norm_company(job["company"]) in sponsors
+    checker = AppliedChecker()
+    print(f"Applied list: {len(checker.entries)} rows from {checker.source}", file=sys.stderr)
+    for job in new.values():
+        job["applied_note"] = checker.check(job)
+    if CONFIG.get("skip_already_applied"):
+        new = {k: j for k, j in new.items() if not (j["applied_note"] or "").startswith("📝 Already")}
     if CONFIG.get("only_ind_sponsors"):
         new = {k: j for k, j in new.items() if j["ind_sponsor"]}
     print(f"{len(new)} new matching jobs", file=sys.stderr)

@@ -21,5 +21,6 @@
   "title_must_match": "\\b(ux|ui|user experience|user research(er)?|product designer|interaction design(er)?|service design(er)?|cro|conversion|experimentation|a/b|content design(er)?|digital designer|customer journey|design research(er)?)\\b",
   "title_exclude": "\\b(lead|head|director|principal|staff|vp|chief|manager|asic|verification|hardware)\\b|developer|engineer|industrial|mechanical",
   "exclude_companies": [],
-  "only_ind_sponsors": false
+  "only_ind_sponsors": false,
+  "skip_already_applied": false
 }

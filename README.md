@@ -18,6 +18,19 @@ Each post shows title, company, city, posting date, and tags:
 ✅ IND recognised sponsor · 🇬🇧 English / 🇳🇱 Dutch-language or Dutch required ·
 ✈️ mentions visa or relocation · ⛔ says no visa sponsorship · seniority.
 
+## Already-applied check
+
+Every job is compared with the **Job Application** tracker sheet (company + role title,
+and LinkedIn job IDs/links). Posts get a bold note:
+
+- 📝 **Already applied: <role> (<status>, <date>)** for the same job
+- 📝 **Applied at this company before: <role> (<status>)** for a different job there
+
+The bot reads the sheet live, so the sheet must be shared as
+*Anyone with the link → Viewer*. If it can't read it, jobs are posted without the note.
+Set `skip_already_applied` to `true` in `config.json` to stop posting jobs she already
+applied to.
+
 ## Schedule
 
 - `job-alerts.yml`: every 30 minutes, 06:00-23:00 UTC. Posted job IDs go in `seen.json`
@@ -50,5 +63,8 @@ Edit `config.json`:
 - "Companies that could potentially sponsor" can't be listed: any employer can apply
   to become a recognised sponsor. Posts tagged ✈️ (mentions visa or relocation) cover
   the ones that say so in the job ad.
+- Glassdoor and JobLeads block automated access with a captcha, so they aren't searched.
+  Most of their Dutch listings are copies of the LinkedIn and company-career-page ads the
+  bot already reads.
 - LinkedIn's terms don't allow automated access, and it may sometimes rate-limit
   GitHub's servers; the bot backs off and catches up on the next run.
