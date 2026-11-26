@@ -105,6 +105,15 @@ def fetch_board(b):
     return out
 
 
+NL_PLACE = re.compile(NL_HINT.pattern.replace("|remote", ""), re.I)
+
+
+def in_nl(job):
+    """Job is in the Netherlands (remote only counts when the Netherlands is named)."""
+    return bool(NL_PLACE.search(job["location"]) or
+                (not job["location"].strip() and NL_PLACE.search(job["title"])))
+
+
 def ats_jobs(boards, workers=16):
     jobs = []
     def safe(b):
@@ -114,5 +123,5 @@ def ats_jobs(boards, workers=16):
             return []
     with cf.ThreadPoolExecutor(workers) as ex:
         for res in ex.map(safe, boards):
-            jobs.extend(j for j in res if NL_HINT.search(j["location"] + " " + j["title"]))
+            jobs.extend(j for j in res if in_nl(j))
     return jobs

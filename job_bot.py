@@ -114,6 +114,10 @@ def relevant(job):
         return False
     if re.search(CONFIG["title_exclude"], title, re.I):
         return False
+    if CONFIG.get("exclude_internships") and re.search(CONFIG["internship_pattern"], title, re.I):
+        return False
+    if re.search(r"\btrainee", title, re.I) and not re.search(CONFIG["trainee_needs"], title, re.I):
+        return False
     company = job["company"].lower()
     return not any(c.lower() in company for c in CONFIG.get("exclude_companies", []))
 

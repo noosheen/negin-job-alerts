@@ -2,7 +2,7 @@
   "location": "Netherlands",
   "time_range": "r86400",
   "max_pages": 2,
-  "max_posts_per_run": 40,
+  "max_posts_per_run": 100,
   "skip_dutch_only": false,
   "keywords": [
     "UX designer",
@@ -54,9 +54,12 @@
     "trainee design",
     "trainee marketing"
   ],
-  "title_must_match": "\\b(ux|ui|user experience|user research(er)?|gebruikersonderzoek(er)?|onderzoeker|design(er|ers)?|ontwerper|vormgev(er|ing)|dtp|grafisch|graphic|visual|visueel|brand|merk|communicati(on|e)|content|contentmaker|copywriter|writer|seo|sea|web ?design(er)?|webdesigner|webontwerper|cro|conversion|conversie|experimentation|a/b|customer journey|klantreis|(junior|medior|associate|trainee)\\)? product owner|product owner \\(?junior|trainee|traineeship)\\b",
-  "title_exclude": "\\b(lead|head|director|principal|staff|vp|chief|manager|asic|verification|hardware|interior|interieur|kitchen|keuken|landscape|architect|fashion|textile|jewel|game|level|mechanical|electrical|electronic|elektro|pcb|chip|analog|instructional|moderator|engineer|engineering|developer|ontwikkelaar|constructeur|werkvoorbereider|tekenaar|industrial|sales|verkoop|accountmanager|recruiter|recruitment)\\b",
+  "title_must_match": "\\b(ux|ui|user experience|user research(er)?|gebruikersonderzoek(er)?|ux onderzoeker|(product|service|interaction|interactie|graphic|grafisch|visual|visueel|brand|merk|web|digital|creative|content|communication|communicatie|motion|ui|ux|marketing) ?(designer|ontwerper|design)|designer|vormgev(er|ing)|dtp|graphic design|visual design|webdesigner|webontwerper|merkontwerper|contentontwerper|communicatie ?(medewerker|specialist|adviseur)|communication (specialist|officer|advisor)|content (marketeer|marketer|specialist|creator|designer|writer|strateg(ist|y)|editor|manager)|contentmarketeer|contentmaker|content ?creator|copywriter|ux writer|seo|cro|conversion|conversie|experimentation|a/b|customer journey|klantreis|(junior|medior|associate|trainee)\\)? product owner|traineeship|trainee)\\b",
+  "title_exclude": "\\b(lead|head|director|principal|staff|vp|chief|manager|asic|verification|hardware|interior|interieur|kitchen|keuken|landscape|architect|fashion|textile|jewel|game|level|mechanical|electrical|electronic|elektro|pcb|chip|analog|instructional|moderator|engineer|engineering|developer|ontwikkelaar|constructeur|werkvoorbereider|tekenaar|industrial|circuit|photonics?|computational|civiel|civil|constructie|3d|investment|trader|clinical|reviewer|pega|projectbeheersing|proposal|sales|verkoop|accountmanager|recruiter|recruitment|sea|paid search)\\b",
   "exclude_companies": [],
   "only_ind_sponsors": false,
-  "skip_already_applied": false
+  "skip_already_applied": false,
+  "exclude_internships": true,
+  "internship_pattern": "\\b(intern|internship|interns|stage|stagiair|stagiaire|stagiair\\(e\\)|meewerkstage|stageopdracht|afstudeerstage|afstudeeropdracht|werkstudent|working student|summer 20\\d\\d)\\b",
+  "trainee_needs": "design|marketing|communicat|content|ux|digital|seo|creative|brand|product|media|e-?commerce|online"
 }
