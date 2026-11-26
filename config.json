@@ -1,0 +1,25 @@
+{
+  "location": "Netherlands",
+  "time_range": "r86400",
+  "max_pages": 3,
+  "max_posts_per_run": 40,
+  "skip_dutch_only": false,
+  "keywords": [
+    "UX designer",
+    "UI UX designer",
+    "product designer",
+    "UX researcher",
+    "user researcher",
+    "CRO specialist",
+    "conversion rate optimization",
+    "experimentation specialist",
+    "service designer",
+    "interaction designer",
+    "content designer",
+    "digital designer"
+  ],
+  "title_must_match": "\\b(ux|ui|user experience|user research(er)?|product designer|interaction design(er)?|service design(er)?|cro|conversion|experimentation|a/b|content design(er)?|digital designer|customer journey|design research(er)?)\\b",
+  "title_exclude": "\\b(lead|head|director|principal|staff|vp|chief|manager|asic|verification|hardware)\\b|developer|engineer|industrial|mechanical",
+  "exclude_companies": [],
+  "only_ind_sponsors": false
+}

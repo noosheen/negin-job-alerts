@@ -1,0 +1,36 @@
+name: Job alerts
+
+on:
+  schedule:
+    - cron: "*/30 6-22 * * *"   # every 30 minutes, 06:00-22:59 UTC
+  workflow_dispatch: {}          # "Run workflow" button for a manual run
+
+permissions:
+  contents: write                # to save seen.json back to the repo
+
+concurrency:
+  group: job-alerts
+  cancel-in-progress: false
+
+jobs:
+  run:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Check LinkedIn and post new jobs
+        env:
+          TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
+          TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
+        run: python job_bot.py
+      - name: Save seen jobs
+        run: |
+          git config user.name "job-alert-bot"
+          git config user.email "job-alert-bot@users.noreply.github.com"
+          git add seen.json
+          git diff --cached --quiet || git commit -m "Update seen jobs"
+          git pull --rebase
+          git push
